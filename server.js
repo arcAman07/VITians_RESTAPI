@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // # const postsRoutes = require("./routes/posts");
 // # const signUpRoutes = require("./routes/signUp");
 
+// Testing it on local database on robo-3T
+
 mongoose.connect("mongodb://localhost:27017/visionDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
