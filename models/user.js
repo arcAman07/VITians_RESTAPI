@@ -12,6 +12,7 @@ const userSchema = new Schema({
   name: { type: "string", required: true },
   dob: { type: "string", required: true },
   regNo: { type: "string", required: true },
+  hashReg: { type: "string", required: true },
 });
 
 module.exports = userSchema;
