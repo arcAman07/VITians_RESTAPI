@@ -6,27 +6,30 @@ const User = mongoose.model("User", userSchema);
 const saltRounds = process.env.SALT;
 
 exports.postUser = (req, res, next) => {
-  bcrypt.hash(req.body.password, saltRounds, (error, hash) => {
-    if (!error) {
-      const newUser = new User({
-        name: req.body.name,
-        username: req.body.username,
-        password: hash,
-        email: req.body.email,
-      });
-      newUser.save((err) => {
-        if (err) {
-          console.log(err);
-          res.send(err);
-        } else {
-          console.log("Successfully added the new user");
-          res.send("Successfully added the new user");
-        }
-      });
-    } else {
-      console.log(error);
-      res.send(error);
-    }
+  const registerNumber = req.body.regNo;
+  bcrypt.genSalt(parseInt(saltRounds), (err, salt) => {
+    bcrypt.hash(req.body.regNo, salt, (error, hash) => {
+      if (!error) {
+        const newUser = new User({
+          name: req.body.name,
+          dob: req.body.dob,
+          regNo: req.body.regNo,
+          hashReg: hash,
+        });
+        newUser.save((err) => {
+          if (err) {
+            console.log(err);
+            res.send(err);
+          } else {
+            console.log("Successfully added the new user");
+            res.send("Successfully added the new user");
+          }
+        });
+      } else {
+        console.log(error);
+        res.send(error);
+      }
+    });
   });
 };
 
@@ -41,35 +44,19 @@ exports.getAllUsers = (req, res, next) => {
   });
 };
 
-exports.authenticateUser = (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  User.findOne({ email: email }, (err, foundUser) => {
-    if (err) {
-      console.log(err);
+exports.getUser = (req, res, next) => {
+  User.findOne({ _id: req.params.id }, (err, user) => {
+    if (!err) {
+      res.send(user);
     } else {
-      if (foundUser) {
-        bcrypt.compare(password, foundUser.password, (err, result) => {
-          if (result == true) {
-            console.log("User authenticated");
-            res.send("User authenticated");
-          } else {
-            res.send("Incorrect Password");
-            console.log(err);
-            console.log(result);
-          }
-        });
-      } else {
-        console.log("User not Found!");
-        res.send("User Not found!");
-      }
+      console.log(err);
+      console.log(user);
     }
   });
 };
 
-exports.getUser = (req, res, next) => {
-  User.findOne({ _id: req.params.id }, (err, user) => {
+exports.getUserByRegNo = (req, res, next) => {
+  User.findOne({ regNo: req.params.id }, (err, user) => {
     if (!err) {
       res.send(user);
     } else {

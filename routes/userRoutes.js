@@ -2,9 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const mongoose = require("mongoose");
-
-const signUpcontroller = require("../controllers/signUpcontroller");
+const signUpcontroller = require("../controllers/userController");
 
 // Post Request to store user Details
 
@@ -18,6 +16,6 @@ router.patch("/signUp/:id", signUpcontroller.patchUser);
 
 router.delete("/signUp/:id", signUpcontroller.deleteUser);
 
-router.post("/signUp/authenticate", signUpcontroller.authenticateUser);
+router.get("/signUp/Reg/:id", signUpcontroller.getUserByRegNo);
 
 module.exports = router;
