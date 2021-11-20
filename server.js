@@ -7,9 +7,7 @@ const PORT = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json())
 
-// # const correctionRoutes = require("./routes/corrections");
-// # const postsRoutes = require("./routes/posts");
-// # const signUpRoutes = require("./routes/signUp");
+const userRoutes = require("./routes/userRoutes");
 
 // Testing it on local database on Robo-3T
 
@@ -18,8 +16,6 @@ mongoose.connect("mongodb://localhost:27017/visionDB", {
   useUnifiedTopology: true,
 });
 
-// # app.use(correctionRoutes);
-// # app.use(postsRoutes);
-// # app.use(signUpRoutes);
+app.use(userRoutes);
 
 app.listen(PORT, () => console.log("The server is running"));
